@@ -18,15 +18,15 @@ def create_bigquery_dataset():
     dataset_id = f"{client.project}.tdf_data"
     
     try:
-        # Check if the dataset exists
+        # Check if the dataset   
         client.get_dataset(dataset_id)
-        print(f"Le dataset {dataset_id} existe déjà.")
+        print(f"The dataset {dataset_id} already exists")
     except Exception:
         # Create the dataset if it does not exist
         dataset = bigquery.Dataset(dataset_id)
         dataset.location = DATASET_LOCATION 
         dataset = client.create_dataset(dataset)
-        print(f"Dataset {dataset_id} créé avec succès.")
+        print(f"Dataset {dataset_id} created successfully")
 
 # Define the DoFn to process each line of the CSV
 class CsvToBigQuery(beam.DoFn):
@@ -78,10 +78,10 @@ class CsvToBigQuery(beam.DoFn):
                     'close_rider_type': close_rider_type
                 }]
             except (ValueError, IndexError) as e:
-                print(f"Erreur lors du traitement de la ligne: {row}, erreur: {str(e)}")
+                print(f"Error in: {row}, error: {str(e)}")
                 return []
         except Exception as e:
-            print(f"Erreur lors du parsing CSV: {str(e)} pour l'élément: {element}")
+            print(f"Error: {str(e)} for element: {element}")
             return []
 
 def run():
